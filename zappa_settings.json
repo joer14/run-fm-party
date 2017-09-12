@@ -1,0 +1,11 @@
+{
+    "dev": {
+        "keep_warm": false,
+        "app_function": "app.app",
+        "profile_name": "joer14",
+        "s3_bucket": "strava-party-fm",
+        "aws_region":"us-east-2",
+        "environment_variables": {
+        }
+    }
+}
