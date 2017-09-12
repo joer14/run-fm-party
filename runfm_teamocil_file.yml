@@ -1,0 +1,21 @@
+name: runfm
+windows:
+  - name: servers
+    root: ~/projects/run-fm-party
+    layout: even-vertical
+    panes:
+      - commands:
+        - workon sfm
+        - python app.py
+      - commands:
+        - workon sfm
+        - cd frontend
+        - yarn run watch
+  - name: git
+    root: ~/projects/run-fm-party
+    layout: even-vertical
+    panes:
+      - commands:
+        - workon sfm
+        - git status
+        - atom .
