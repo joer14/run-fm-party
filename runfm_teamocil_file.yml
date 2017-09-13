@@ -10,7 +10,7 @@ windows:
       - commands:
         - workon sfm
         - cd frontend
-        - yarn run watch
+        - yarn run start
   - name: git
     root: ~/projects/run-fm-party
     layout: even-vertical
