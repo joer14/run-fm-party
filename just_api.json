@@ -1,0 +1,40 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-09-14T23:49:30Z",
+    "title": "run-fm-party-dev"
+  },
+  "host": "dev.runfm.party",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/": {
+      "x-amazon-apigateway-any-method": {
+        "responses": {},
+        "x-amazon-apigateway-integration": {
+          "credentials": "arn:aws:iam::761773261345:role/run-fm-party-dev-ZappaLambdaExecutionRole",
+          "uri": "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:761773261345:function:run-fm-party-dev/invocations",
+          "passthroughBehavior": "never",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/{proxy+}": {
+      "x-amazon-apigateway-any-method": {
+        "responses": {},
+        "x-amazon-apigateway-integration": {
+          "credentials": "arn:aws:iam::761773261345:role/run-fm-party-dev-ZappaLambdaExecutionRole",
+          "uri": "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:761773261345:function:run-fm-party-dev/invocations",
+          "passthroughBehavior": "never",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-binary-media-types": [
+    "*/*"
+  ]
+}
