@@ -3,7 +3,7 @@
         "keep_warm": false,
         "app_function": "app.app",
         "profile_name": "joer14",
-        "s3_bucket": "strava-party-fm",
+        "s3_bucket": "run-fm-party-zappa-dev",
         "aws_region": "us-east-2",
         "domain": "dev.runfm.party",
         "certificate_arn": "arn:aws:acm:us-east-1:761773261345:certificate/aeca9e17-a026-4fc4-9d32-617bbf8c324c",
