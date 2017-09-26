@@ -1,5 +1,121 @@
 Lots of junk in here - currenlty not a readme
 
+
+
+
+
+
+New Plan:
+     - setup zappa excludes to exclude everything in frontend folder except build folder.
+     - setup additional stages in zappa maybe?
+     - serve frontend assets via lambda for now
+          - test to see how slow this is, is it feasible to actually serve assets using lambda???
+     - build basic frontend
+     - build basic backend
+     - add functionality for spotify, then last.fm, and add preferences.
+     - add logging, error reporting, etc.
+     - add about page, polish as necessary.
+
+
+
+
+
+
+commands to remember:
+
+
+plan for deplying this app
+- setup hosting on aws and verfiy cert email
+- deploy app to each stage
+- after deploying to the stage, programatically modify cloudfront to work with s3 hosting...
+    - I think we are going to have to setup our own cloudfront dist???
+    - actually we could use the call back option to just call the modification to cloudfront part of the script.
+    - ideally we would just setup our own cloud front distribution.
+    - maybe we should do this by looking at what zappa is doing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- create policy
+- create role with that policy and certain trust levels or some bs
+- setup methods/resources/response handler integrations/error code resolution bs in api gateway so it connects to s3.
+-
+
+
+
+- finally some answers I think:
+  https://serverfault.com/questions/839197/how-can-i-use-aws-cloudfront-and-api-gateway-side-by-side-for-the-same-domain
+
+
+this is the really good guide here:
+  - https://www.codeengine.com/articles/process-form-aws-api-gateway-lambda/
+
+  - I think I need to either do this by hand one time and give up on the easy setup nature with zappa or use cloudformation to specify this infrastructure or the api directly... seems kind of complicated but pretty awesome.
+    - it'd be great if I automated the whole thing.
+
+
+not really Ideal architecture setup:
+  - 1. manages route53 dns
+  - 2. creates api-gateway
+  - 3. creates frontend s3 buckets for each api-gateway / staging site
+  - 4. create cloudfront distribution with seperate origins
+        1 for s3
+        1 that points to api-gateway or lambda directly
+
+
+to do:
+  more reading - Lambda@Edge,
+
+this might be what I want:
+
+- https://github.com/sdd/serverless-apig-s3
+
+
+Current plan:
+- clone zappa cloudformation output so we have it
+- also clone dns stuff so we have it.
+- figure out how to match up or adjust current settings to work for cloud formation.
+- draw insipriation on correct cloudformation setup from here:
+  - https://github.com/sdd/serverless-apig-s3/blob/master/resources.yml
+  - document this pretty well.
+  - write blog post about it too so other people can tlak about it.
+
+
+    - https://serverless.com/framework/docs/providers/aws/guide/intro/
+    - https://github.com/awslabs/chalice
+    - https://github.com/tmaiaroto/aegis
+    - https://github.com/Miserlou/Zappa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    - api gateway questions
+            - can I make the root level / redirect to s3 except /api ???
+            - where does cloudfront fit into all of this
+
+            - goodish guide: https://medium.com/@john.titus/moving-a-simple-api-to-amazon-s-api-gateway-680d025e0921
+
+
 expects some env variables be set:
 ```
 export LASTFM_API_KEY=
