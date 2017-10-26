@@ -18,9 +18,12 @@ jmespath==0.9.3
 kappa==0.6.0
 lambda-packages==0.16.1
 MarkupSafe==1.0
+numpy==1.13.3
+pandas==0.20.3
 placebo==0.8.1
 python-dateutil==2.6.1
 python-slugify==1.2.4
+pytz==2017.2
 PyYAML==3.12
 requests==2.18.4
 s3transfer==0.1.11
