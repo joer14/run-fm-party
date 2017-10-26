@@ -11,7 +11,28 @@ const resolve = require('path').resolve;
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
-// app.use('/api', myApi);
+
+const url = require('url');
+const proxy = require('express-http-proxy');
+
+// Flask-managed Proxy requests
+
+let external_host = 'localhost:3000';
+let backend_url = '127.0.0.1:5000/'
+
+app.use('/api', proxy(backend_url, {
+  userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
+    // recieves an Object of headers, returns an Object of headers.
+    headers['X-Forwarded-Host'] = external_host;
+    return headers;
+  },
+  proxyReqPathResolver: function(req) {
+    let after = require('url').parse(req.url).path;
+    let prepend = 'api'
+    return prepend+after
+  },
+  preserveHostHdr: true
+}));
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
