@@ -8,6 +8,11 @@
         "domain": "dev.runfm.party",
         "certificate_arn": "arn:aws:acm:us-east-1:761773261345:certificate/aeca9e17-a026-4fc4-9d32-617bbf8c324c",
         "environment_variables": {
-        }
+        },
+        "exclude": ["frontend"],
+        "callbacks": {
+                 "settings": "manage_frontend.build_and_copy_frontend",
+                 "post": "manage_frontend.symlink_build_dir",
+        },
     }
 }
