@@ -10,3 +10,10 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
+
+export const LOGIN = 'APP/LOGIN';
+export const LOGIN_LOADED = 'APP/LOGIN_LOADED';
+export const LOGOUT = 'APP/LOGOUT';
+export const GOT_LOGIN_URL = 'APP/GOT_LOGIN_URL';
+
+export const ADD_SERVICE = 'APP/ADD_SERVICE';
