@@ -29,42 +29,6 @@ app.secret_key = secret_key
 def root(path):
     return app.send_static_file('index.html')
 
-@app.route('/api/v1/', defaults={'username':None})
-# @app.route('/api/v1/<username>')
-def api_root(username=None):
-    return jsonify({'some':'json', 'user': username, 'qs': request.query_string})
-    # return 'This going to be an API!'
-
-@app.route('/test')
-def test():
-
-    return jsonify({'url':URL})
-
-def sketchy_jsonify(src):
-    for key in src.keys():
-        src[key] = str(src[key])
-    return src
-
-
-
-
-# # @app.route('/api/v1/spotify/gen_url')
-# def create_spotify_auth_url():
-#
-#     # hostname = 'https://dev.runfm.party'
-#     # hostname = 'http://localhost:3000'
-#     # redirect_uri = hostname + '/api/v1/spotify/exchange/'
-#     redirect_uri = HOSTNAME + url_for('spotify_exchange')
-#     base = 'https://accounts.spotify.com/authorize?'
-#     params = {
-#       'client_id': os.getenv('SPOTIFY_CLIENT_ID'),
-#       'response_type': 'code',
-#       'scope':'user-read-recently-played user-read-currently-playing',
-#       'show_dialog':'true',
-#     }
-#     return base+urllib.urlencode(params)+'&redirect_uri=' + redirect_uri
-#     # return jsonify({'url':base+urllib.urlencode(params)+'&redirect_uri=' + redirect_uri})
-
 @app.route('/api/v1/spotify/exchange/')
 def spotify_exchange():
     ''' token exchange
@@ -87,62 +51,23 @@ def spotify_exchange():
         'client_secret': os.getenv('SPOTIFY_CLIENT_SECRET'),
     }
     response = requests.post(exchange_url, data=data)
-
     content = json.loads(response.content)
-
-    print content
-
     # todo
-    # look up the user using their athelete_id in the session
     user = User.get(session['athlete_id'])
     user.tokens['spotify'] = content
     #since there is an expires in field, we should probably include the time we got the cert in the contents.
     #or maybe expires_in + current time, so we know when it will expire according to our current clock
-
     user.spotify = {'profile':{'name':'joe'}}
-    # here we could instead do a query with our new credentials to populate the profile with some real info if we wanted to.
-    # or we could just say account = active or something...
     user.save()
-    # store the response content in the user profile object.
-
-    #
-    # user_obj = {
-    #     'athlete_id': content['athlete']['id'],
-    #     'strava_access_token': content['access_token'],
-    # }
-    # for k in content['athlete']:
-        # user_obj['strava_'+k] = content['athlete'][k]
-    #
-    # dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
-    # table = dynamodb.Table('users')
-    # response = table.put_item(
-    #             Item=user_obj,
-    # )
-    # print 'setting athelete id in session', user_obj['athlete_id']
-    # session['athlete_id'] = user_obj['athlete_id']
     return redirect('/success', code=302)
-
 
 # everytime we make a request to spotify, we need to make sure we don't need to refresh the token for the user first.
 
-
 @app.route('/api/v1/login')
 def login():
-    # if False:
+    ''' If we can't log in the user, pass them a url to login to strava.'''
     if 'athlete_id' in session:
-        # create_spotify_auth_url
         user = User.get(session['athlete_id']).as_json()
-
-        # payload = {'athlete':convert_dynamodb_to_dict(get_user_obj(session['athlete_id']))}
-        # this should be another level up
-        # user object should be
-        # athelete_id,
-        # strava = json blob of strava info
-        # lastfm = json blob of last.fm info
-        # spotify = json blob of spotify info
-
-        # payload['athlete'].setdefault('spotify', )
-        # payload['spotify'] = {'login_url':create_spotify_auth_url()}
         return jsonify(user)
     return create_strava_auth_url()
 
