@@ -14,6 +14,10 @@ from models import User
 from util import get_spotify_auth_redirect_uri, create_strava_auth_url
 
 app = Flask(__name__,  static_url_path='', static_folder='build')  # serve frontend stuff from /build dir
+
+secret_key = str(os.getenv('STRAVA_CLIENT_SECRET'))+str(os.getenv('SPOTIFY_CLIENT_SECRET'))+str(os.getenv('LASTFM_SHARED_SECRET'))
+app.secret_key = secret_key
+
 # frontend building/hackiness stuff
 # this is super janky - but we can just serve the html and all static assets through lambda.
 # this is a bad practice. I want to eventually setup s3 to host these files, ideally with
@@ -299,6 +303,3 @@ def dump_all_user_activies():
 
 if __name__ == "__main__":
     app.run()
-
-# fixme need to put a real secret here
-app.secret_key = str(os.getenv('STRAVA_CLIENT_SECRET'))+str(os.getenv('SPOTIFY_CLIENT_SECRET'))+str(os.getenv('LASTFM_SHARED_SECRET'))
