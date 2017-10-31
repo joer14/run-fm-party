@@ -19,6 +19,9 @@ New Plan:
 
 
 
+todo
+  - split up strava, spotify, last.fm stuff into their own files/modules.
+  - change the models table names so they based on the environment.
 
 
 commands to remember:
