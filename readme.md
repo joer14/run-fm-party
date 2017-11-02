@@ -15,3 +15,6 @@ Todo
     - add activity level pages.
     - create preferences/user profile page.
   - ... everything else. 
+  
+Eventually
+  - setup a better way of hosting the frontend using api gateway and s3 or cloudfront. 
