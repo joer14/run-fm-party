@@ -10,7 +10,7 @@ class User(Model):
     def as_json(self):
         lastfm = self.lastfm
         if lastfm is None:
-            lastfm = {'login_url':create_spotify_auth_url()}
+            lastfm = {}
         spotify = self.spotify
         if spotify is None:
             spotify = {'login_url':create_spotify_auth_url()}

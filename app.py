@@ -32,8 +32,6 @@ def root(path):
 @app.route('/api/v1/spotify/exchange/')
 def spotify_exchange():
     ''' token exchange
-    Exchange the temporary token from strava with a more permanent access token.
-    Create a user in the user table with the info from strava.
     '''
     code = request.args.get('code')
     if code == None:
@@ -61,6 +59,39 @@ def spotify_exchange():
     user.save()
     return redirect('/success', code=302)
 
+# this actually isn't necessary currently since you don't need permission to grab
+# recent tracks from a user
+# @app.route('/api/v1/lastfm/exchange/')
+# def lastfm_exchange():
+#     token = request.args.get('token')
+#     if token == None:
+#         # they probably denied us.... do something else.
+#         return
+#     print '-'*70
+#     print 'token'
+#     print token
+#     print '-'*70
+#     # http://localhost:3000/api/v1/lastfm/exchange/?token=Q6i6DHf8RJt1RSac8Ugi1d6WxVUklMip
+#
+#     get_session = 'http://www.last.fm/api/auth/getSession'
+#
+#     data = {
+#         'token': token,
+#         'api_key': os.getenv('LASTFM_API_KEY'),
+#     }
+#
+#     return get_session
+#     response = requests.get(exchange_url)
+#     # content = json.loads(response.content)
+#     # todo
+#     user = User.get(session['athlete_id'])
+#     # user.tokens['lastfm'] = content
+#     #since there is an expires in field, we should probably include the time we got the cert in the contents.
+#     #or maybe expires_in + current time, so we know when it will expire according to our current clock
+#     # user.spotify = {'profile':{'name':'joe'}}
+#     user.save()
+#     return redirect('/success', code=302)
+#
 # everytime we make a request to spotify, we need to make sure we don't need to refresh the token for the user first.
 
 @app.route('/api/v1/login')

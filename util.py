@@ -24,6 +24,14 @@ def create_spotify_auth_url():
     return base+urllib.urlencode(params)+'&redirect_uri=' + redirect_uri
     # return jsonify({'url':base+urllib.urlencode(params)+'&redirect_uri=' + redirect_uri})
 
+# def create_lastfm_auth_url():
+#     base = 'http://www.last.fm/api/auth/?'
+#     callback_url = HOSTNAME + url_for('lastfm_exchange')
+#     params = {
+#         'api_key': os.getenv('LASTFM_API_KEY'),
+#     }
+#     return base+urllib.urlencode(params)+'&cb=' + callback_url
+
 def get_spotify_auth_redirect_uri():
     return HOSTNAME + url_for('spotify_exchange')
 

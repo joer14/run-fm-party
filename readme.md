@@ -11,10 +11,11 @@ Todo
   - change the models table names so they based on the environment.
   - clean up frontend
     - create a place to load last.fm user name and edit it.
+    - add remove/disconnect buttons for spotify/lastfm/entire app.
     - add FAQ / getting started.
     - add activity level pages.
     - create preferences/user profile page.
-  - ... everything else. 
-  
+  - ... everything else.
+
 Eventually
-  - setup a better way of hosting the frontend using api gateway and s3 or cloudfront. 
+  - setup a better way of hosting the frontend using api gateway and s3 or cloudfront.
