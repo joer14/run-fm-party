@@ -25,13 +25,20 @@ import {
 
 
 export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   // get the redirect url from the backend, and direct the user to that link.
   goToStravaSignUp = () => {
     window.location.href = this.props.loginUrl;
   }
-
   goToSpotifyLogin = () => {
     window.location.href = this.props.user.spotify.login_url;
+  }
+  openLastFmBox = () => {
+    this.setState({'edit_last_fm':true});
+    // window.location.href = this.props.user.lastfm.login_url;
   }
   dumpActivities = () => {
     // let stravaUrl = request('/api/v1/strava/gen_url')
@@ -41,7 +48,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
     // window.location.href = '/api/v1/strava/gen_url'
   }
   loadActivities = () => {
-    console.log('loading activities')
+    // console.log('loading activities')
     let stravaUrl = request('/api/v1/load_activities/')
       .then((x)=>{
 
@@ -78,8 +85,8 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
       let lfStatus = (
         <Flex align='center'>
           <Button
-            onClick={this.props.addService.bind(this,'lf')}
-            children='Connect to LF'
+            onClick={this.openLastFmBox}
+            children='Connect to Last FM'
           />
         </Flex>
       )
@@ -88,6 +95,18 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
       }
       if (this.props.user.lastfm.profile){
         lfStatus = (<p>Successfully Connected to LF</p>)
+      }
+      if (this.state.edit_last_fm){
+        lfStatus = (
+          <Flex align='center'>
+            <span>Enter your Last.Fm User Name</span>
+            <input placeholder=''/>
+            <Button
+              onClick={this.openLastFmBox}
+              children='Connect to Last FM'
+            />
+          </Flex>
+        )
       }
 
       view = (
@@ -102,8 +121,9 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
             {spStatus}
             <Box mx={1} />
             {lfStatus}
-            <Avatar src={this.props.user.strava.profile_medium}/>
           </Flex>
+          <Avatar src={this.props.user.strava.profile_medium}/>
+
         </div>
       )
     }
