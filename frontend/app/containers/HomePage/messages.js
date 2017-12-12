@@ -16,6 +16,6 @@ export default defineMessages({
   },
   body: {
     id: 'app.components.HomePage.body',
-    defaultMessage: 'body msg here',
+    defaultMessage: "Automatically add a list of the songs you've listened to your Strava activity's description."
   },
 });

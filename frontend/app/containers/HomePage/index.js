@@ -12,7 +12,20 @@ import { createStructuredSelector } from 'reselect';
 import makeSelectHomePage from './selectors';
 import messages from './messages';
 
-import { Avatar, Heading, Subhead, Button, Link, Flex, Box, Lead, Container, NavLink, Toolbar } from 'rebass'
+import {
+  Avatar,
+  Heading,
+  Subhead,
+  Button,
+  Link,
+  Flex,
+  Box,
+  Lead,
+  Container,
+  NavLink,
+  Toolbar,
+  Divider
+} from 'rebass'
 
 import request from 'utils/request';
 
@@ -22,6 +35,9 @@ import {
   selectLoginUrl,
   selectLoginStatus,
 } from '../App/selectors';
+
+import StravaLogin from 'components/StravaLogin';
+import SpotifyLogin from 'components/SpotifyLogin';
 
 
 export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -123,7 +139,6 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
             {lfStatus}
           </Flex>
           <Avatar src={this.props.user.strava.profile_medium}/>
-
         </div>
       )
     }
@@ -138,6 +153,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
                   <p>
                     <FormattedMessage {...messages.body} />
           			  </p>
+                  {/*
                   <Button
                     onClick={this.loadActivities}
                     children='Load Activities'
@@ -151,9 +167,18 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
                     href="/api/v1/dump_activities/?type=csv" target="_blank"
                     children='Dump Activities'
                   />
+                  */}
                   {view}
-                  {/*<pre className='pre'>npm i grid-styled</pre>*/}
+                  <StravaLogin/>
+                  <SpotifyLogin/>
 
+                  {/*<pre className='pre'>npm i grid-styled</pre>*/}
+                  <Divider/>
+                  <ul>
+                    <li> list connected services (with the ability to remove connected accounts)</li>
+                    <li> have a small preference pane</li>
+                    <li> have links/settings to disable this app</li>
+                  </ul>
           		</Box>
             </Container>
         	</Flex>
