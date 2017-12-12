@@ -101,17 +101,14 @@ export class App extends React.PureComponent { // eslint-disable-line react/pref
           <div style={sx.root}>
             <Flex wrap>
               <Toolbar width={1}>
-                <Button
-                  children='Logo Here'
-                />
                 <NavLink>
-                  Hello
+                  Home
+                </NavLink>
+                <NavLink>
+                  About
                 </NavLink>
                 <NavLink ml='auto'>
-                  Beep
-                </NavLink>
-                <NavLink>
-                  Boop
+                  Code
                 </NavLink>
               </Toolbar>
               {React.Children.map(this.props.children, (child) => React.cloneElement(child, {
