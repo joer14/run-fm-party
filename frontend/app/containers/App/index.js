@@ -101,13 +101,13 @@ export class App extends React.PureComponent { // eslint-disable-line react/pref
           <div style={sx.root}>
             <Flex wrap>
               <Toolbar width={1}>
-                <NavLink>
+                <NavLink href='/'>
                   Home
                 </NavLink>
-                <NavLink>
+                <NavLink href='/about'>
                   About
                 </NavLink>
-                <NavLink ml='auto'>
+                <NavLink ml='auto' href='https://github.com/joer14/run-fm-party'>
                   Code
                 </NavLink>
               </Toolbar>
