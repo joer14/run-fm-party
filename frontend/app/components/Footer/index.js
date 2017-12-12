@@ -26,9 +26,11 @@ function Footer() {
     		</Text>
     	</Box>
     	<Box w={1/3} px={2}>
-        <a href='https://strava.com' target='_blank'>
-          <img height='34' href='https://strava.com' src={poweredByStrava}/>
-        </a>
+        <Flex width={1} justify='center' >
+          <a href='https://strava.com' target='_blank'>
+            <img height='34' href='https://strava.com' src={poweredByStrava}/>
+          </a>
+        </Flex>
     	</Box>
       <Box w={1/3} px={2}>
       </Box>
