@@ -19,3 +19,6 @@ Todo
 
 Eventually
   - setup a better way of hosting the frontend using api gateway and s3 or cloudfront.
+      - setup cloudfront directly in front api gateway
+       - this should be pretty easy, we just won't cache post requests (and probably any requests to `/api`)
+       - make sure that it caches frontend assets, but that there is a hash or manifest that doesn't get cached (or maybe a programatic way of purging the cache that we can call during the build process???) 
