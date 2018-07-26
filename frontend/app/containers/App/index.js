@@ -99,7 +99,7 @@ export class App extends React.PureComponent { // eslint-disable-line react/pref
       <div>
         <Provider theme={theme}>
           <div style={sx.root}>
-            <Flex wrap>
+            <Flex flexWrap='wrap'>
               <Toolbar width={1}>
                 <NavLink href='/'>
                   Home

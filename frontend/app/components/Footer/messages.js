@@ -8,6 +8,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   madeby: {
     id: 'app.components.Footer.madeby',
-    defaultMessage: 'Made by Joe Rowley',
+    defaultMessage: 'Made by Joe',
   },
 });

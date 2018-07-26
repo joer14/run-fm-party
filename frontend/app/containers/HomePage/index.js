@@ -38,6 +38,8 @@ import {
 
 import StravaLogin from 'components/StravaLogin';
 import SpotifyLogin from 'components/SpotifyLogin';
+import ServiceStatus from 'components/ServiceStatus';
+
 
 
 export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -72,113 +74,45 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
   }
   render() {
     let loggedOutView = (
-      <Flex align='center'>
-        <Button
-          onClick={this.goToStravaSignUp}
-          children='Login'
-        />
-        <Box mx={1} />
-      </Flex>
+      <div>
+        <Heading is='h1'><FormattedMessage {...messages.header} /></Heading>
+        <Lead><FormattedMessage {...messages.subheader} /></Lead>
+        <p>
+          <FormattedMessage {...messages.body} />
+        </p>
+        <StravaLogin/>
+      </div>
     )
 
     let view = loggedOutView;
-    if (this.props.loggingIn){
-      view = (
-        <div>
-          Attempting to Log In
-        </div>
-      )
-    }
+
     if(this.props.user != null){
-      let spStatus = (
-        <Flex align='center'>
-          <Button
-            onClick={this.goToSpotifyLogin}
-            children='Connect to SP'
-          />
-        </Flex>
-      )
-      let lfStatus = (
-        <Flex align='center'>
-          <Button
-            onClick={this.openLastFmBox}
-            children='Connect to Last FM'
-          />
-        </Flex>
-      )
-      if (this.props.user.spotify.profile){
-        spStatus = (<p>Successfully Connected to SP</p>)
-      }
-      if (this.props.user.lastfm.profile){
-        lfStatus = (<p>Successfully Connected to LF</p>)
-      }
-      if (this.state.edit_last_fm){
-        lfStatus = (
-          <Flex align='center'>
-            <span>Enter your Last.Fm User Name</span>
-            <input placeholder=''/>
-            <Button
-              onClick={this.openLastFmBox}
-              children='Connect to Last FM'
-            />
-          </Flex>
-        )
-      }
+
 
       view = (
         <div>
-          User Logged In: {this.props.user.toString()}
-          <Flex align='center'>
-            <Button
-              onClick={this.props.logout}
-              children='Logout'
-            />
-            <Box mx={1} />
-            {spStatus}
-            <Box mx={1} />
-            {lfStatus}
-          </Flex>
+          User Logged In: {this.props.user.strava.toString()}
           <Avatar src={this.props.user.strava.profile_medium}/>
+
+          <Button
+            onClick={this.props.logout}
+            children='Logout'
+          />
+
+          <Box p={3}>
+            <ServiceStatus name='Spotify' data={this.props.user.spotify} />
+            <ServiceStatus name='Last.fm' data={this.props.user.lastfm} />
+          </Box>
         </div>
       )
     }
-    console.log('props', this.props)
+    // console.log('props', this.props)
     return (
         <div style={sx.root}>
-          <Flex wrap>
+          <Flex flexWrap='wrap'>
             <Container maxWidth={1024}>
               <Box is='header' p={3} width={[1,2/3]}>
-                  <Heading is='h1'><FormattedMessage {...messages.header} /></Heading>
-                  <Lead><FormattedMessage {...messages.subheader} /></Lead>
-                  <p>
-                    <FormattedMessage {...messages.body} />
-          			  </p>
-                  {/*
-                  <Button
-                    onClick={this.loadActivities}
-                    children='Load Activities'
-                  />
-                  <Button
-                    onClick={this.loadActivities}
-                    children='Load Activities'
-                  />
-                  <Box mx={1} />
-                  <Link
-                    href="/api/v1/dump_activities/?type=csv" target="_blank"
-                    children='Dump Activities'
-                  />
-                  */}
-                  {view}
-                  <StravaLogin/>
-                  <SpotifyLogin/>
-
-                  {/*<pre className='pre'>npm i grid-styled</pre>*/}
-                  <Divider/>
-                  <ul>
-                    <li> list connected services (with the ability to remove connected accounts)</li>
-                    <li> have a small preference pane</li>
-                    <li> have links/settings to disable this app</li>
-                  </ul>
+                {view}
           		</Box>
             </Container>
         	</Flex>

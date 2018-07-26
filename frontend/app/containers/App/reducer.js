@@ -51,6 +51,7 @@ function appReducer(state = initialState, action) {
         .set('user', action.user);
 
     case GOT_LOGIN_URL:
+      console.log('got login url', action)
       return state
         .set('loggingIn', false)
         .set('loginUrl', action.url);
