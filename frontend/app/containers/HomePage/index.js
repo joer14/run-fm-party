@@ -91,7 +91,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
 
       view = (
         <div>
-          User Logged In: {this.props.user.strava.toString()}
+          User Logged In: {this.props.user.lastfm}
           <Avatar src={this.props.user.strava.profile_medium}/>
 
           <Button

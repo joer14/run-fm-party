@@ -7,6 +7,8 @@ import {
 } from '../App/constants';
 
 import {
+  lastfmValdating,
+  lastfmSuccess,
   loginLoaded,
   gotLoginUrl
 } from '../App/actions';
@@ -43,16 +45,20 @@ export function* logout() {
 }
 
 export function* addService(action) {
-  console.log('time to add a service', action)
   const user = yield select(selectUser());
-  console.log('user now', user)
-  if(action.service == 'lf'){
-    console.log('do stuff for lf')
-  }
-  if(action.service == 'sp'){
-    const loginUrl = user.spotify.login_url
-    console.log('do something else for sp', loginUrl);
+  if(action.service == 'lastfm'){
+    yield put(lastfmValdating())
 
+    const requestURL = `/api/v1/lastfm/setup/?username=${action.username}`;
+    const setupStatus = yield call(request, requestURL);
+    if(setupStatus.data.error){
+      // do something
+    } else {
+      yield put(loginLoaded(setupStatus.data))
+      yield put(lastfmSuccess())
+
+    }
+    console.log('setupStatus', setupStatus)
   }
 }
 // Individual exports for testing

@@ -21,9 +21,8 @@ import {
   LOGOUT,
   GOT_LOGIN_URL,
   ADD_SERVICE,
-  // LOAD_REPOS,
-  // LOAD_REPOS_SUCCESS,
-  // LOAD_REPOS_ERROR,
+  LAST_FM_SUCCESS_SETUP,
+  LAST_FM_VALIDATING
 } from './constants';
 
 export function login() {
@@ -52,12 +51,28 @@ export function gotLoginUrl(url){
   }
 }
 
-export function addService(service){
+export function addService(service, username){
   return {
     type: ADD_SERVICE,
     service,
+    username,
   }
 }
+
+export function lastfmSuccess(){
+  return {
+    type: LAST_FM_SUCCESS_SETUP,
+  }
+}
+
+
+
+export function lastfmValdating(){
+  return {
+    type: LAST_FM_VALIDATING,
+  }
+}
+
 
 /**
  * Load the repositories, this action starts the request saga

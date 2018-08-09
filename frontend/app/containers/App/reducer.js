@@ -13,13 +13,12 @@
 import { fromJS } from 'immutable';
 
 import {
-  LOGIN,
-  LOGIN_LOADED,
-  LOGOUT,
   GOT_LOGIN_URL,
-  // LOAD_REPOS_SUCCESS,
-  // LOAD_REPOS,
-  // LOAD_REPOS_ERROR,
+  LAST_FM_SUCCESS_SETUP,
+  LAST_FM_VALIDATING,
+  LOGIN_LOADED,
+  LOGIN,
+  LOGOUT,
 } from './constants';
 
 // The initial state of the App
@@ -56,21 +55,14 @@ function appReducer(state = initialState, action) {
         .set('loggingIn', false)
         .set('loginUrl', action.url);
 
+    case LAST_FM_SUCCESS_SETUP:
+      return state
+        .set('lastfmValid', true);
 
-    // case LOAD_REPOS:
-    //   return state
-    //     .set('loading', true)
-    //     .set('error', false)
-    //     .setIn(['userData', 'repositories'], false);
-    // case LOAD_REPOS_SUCCESS:
-    //   return state
-    //     .setIn(['userData', 'repositories'], action.repos)
-    //     .set('loading', false)
-    //     .set('currentUser', action.username);
-    // case LOAD_REPOS_ERROR:
-    //   return state
-    //     .set('error', action.error)
-    //     .set('loading', false);
+    case LAST_FM_VALIDATING:
+      return state
+        .set('lastfmValid', false);
+
     default:
       return state;
   }

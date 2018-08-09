@@ -18,6 +18,11 @@ const selectLoginStatus = () => createSelector(
   (globalState) => globalState.get('loggingIn')
 );
 
+const selectLastFMValid = () => createSelector(
+  selectGlobal(),
+  (globalState) => globalState.get('lastfmValid')
+);
+
 const makeSelectLocationState = () => {
   let prevRoutingState;
   let prevRoutingStateJS;
@@ -37,7 +42,8 @@ const makeSelectLocationState = () => {
 export {
   makeSelectLocationState,
   selectGlobal,
-  selectUser,
-  selectLoginUrl,
+  selectLastFMValid,
   selectLoginStatus,
+  selectLoginUrl,
+  selectUser,
 };

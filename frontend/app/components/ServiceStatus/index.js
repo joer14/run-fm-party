@@ -110,6 +110,7 @@ class ServiceStatus extends React.PureComponent { // eslint-disable-line react/p
         </Flex>
         { this.state.settingLastFm && (
           <LastFmSetup
+            initialUsername={this.props.data}
             close={()=>this.setState({settingLastFm: false})}/>
         )}
       </Box>

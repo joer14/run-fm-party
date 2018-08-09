@@ -59,6 +59,17 @@ def spotify_exchange():
     user.save()
     return redirect('/success', code=302)
 
+@app.route('/api/v1/lastfm/setup/')
+def lastfm_setup():
+    username = request.args.get('username')
+    if username is not None:
+        # do some other validation to determine its a valid lastfm username
+        print 'last fm username: ', username
+        user = User.get(session['athlete_id'])
+        user.lastfm = username
+        user.save()
+    return jsonify(user.as_json())
+
 # this actually isn't necessary currently since you don't need permission to grab
 # recent tracks from a user
 # @app.route('/api/v1/lastfm/exchange/')
