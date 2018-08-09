@@ -25,52 +25,6 @@ import {
 } from 'rebass'
 
 
-// let spStatus = (
-//   <Flex align='center'>
-//     <Button
-//       onClick={this.goToSpotifyLogin}
-//       children='Connect to SP'
-//     />
-//   </Flex>
-// )
-// let lfStatus = (
-//   <Flex align='center'>
-//     <Button
-//       onClick={this.openLastFmBox}
-//       children='Connect to Last FM'
-//     />
-//   </Flex>
-// )
-// if (this.props.user.spotify.profile){
-//   spStatus = (<p>Successfully Connected to SP</p>)
-// }
-// if (this.props.user.lastfm.profile){
-//   lfStatus = (<p>Successfully Connected to LF</p>)
-// }
-// if (this.state.edit_last_fm){
-//   lfStatus = (
-//     <Flex align='center'>
-//       <span>Enter your Last.Fm User Name</span>
-//       <input placeholder=''/>
-//       <Button
-//         onClick={this.openLastFmBox}
-//         children='Connect to Last FM'
-//       />
-//     </Flex>
-//   )
-// }
-
-// <Flex align='center'>
-//   <Button
-//     onClick={this.props.logout}
-//     children='Logout'
-//   />
-//   <Box mx={1} />
-//   {spStatus}
-//   <Box mx={1} />
-//   {lfStatus}
-// </Flex>
-
 class ServiceStatus extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);

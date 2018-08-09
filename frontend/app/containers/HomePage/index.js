@@ -14,17 +14,18 @@ import messages from './messages';
 
 import {
   Avatar,
-  Heading,
-  Subhead,
-  Button,
-  Link,
-  Flex,
   Box,
-  Lead,
+  Button,
   Container,
+  Divider,
+  Flex,
+  Heading,
+  Lead,
+  Link,
   NavLink,
+  Subhead,
+  Text,
   Toolbar,
-  Divider
 } from 'rebass'
 
 import request from 'utils/request';
@@ -87,14 +88,25 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
 
     if(this.props.user != null){
       view = (
-        <div>
-          User Logged In: {this.props.user.lastfm}
-          <Avatar src={this.props.user.strava.profile_medium}/>
-          <Button
-            onClick={this.props.logout}
-            children='Logout'
-          />
-          <Box p={3}>
+        <Box width={500+'px'}>
+          <Flex mx={0}>
+            <Box width={1/2} pr={2} pb={2}>
+              <Flex>
+                <Text pr={2}>
+                  User: {this.props.user.strava.username}
+                </Text>
+                <Avatar size={24} src={this.props.user.strava.profile_medium}/>
+              </Flex>
+            </Box>
+            <Box mx='auto'/>
+            <Box >
+              <Button
+                onClick={this.props.logout}
+                children='Logout'
+              />
+            </Box>
+          </Flex>
+          <Box pr={3} width={200+'px'}>
             {/*
               Temporarily disable spotify for the time being. I don't need this, and I'm building this for me. ;)
 
@@ -102,19 +114,17 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
             */}
             <ServiceStatus name='Last.fm' data={this.props.user.lastfm} />
           </Box>
-        </div>
+        </Box>
       )
     }
 
     return (
         <div style={sx.root}>
-          <Flex flexWrap='wrap'>
-            <Container maxWidth={1024}>
-              <Box is='header' p={3} width={[1,2/3]}>
-                {view}
-          		</Box>
-            </Container>
-        	</Flex>
+          <Container maxWidth={1024}>
+            <Box is='body' p={3}>
+              {view}
+            </Box>
+          </Container>
         </div>
     );
   }
@@ -161,9 +171,6 @@ const sx = {
     color: '#fff',
     backgroundColor: '#f00'
   },
-  xray: {
-    transition: 'background-color .3s ease-out'
-  }
 }
 
 HomePage.propTypes = {

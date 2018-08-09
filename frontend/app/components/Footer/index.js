@@ -21,7 +21,7 @@ function Footer() {
   return (
     <Flex align='center' width={1} justify='space-between' style={{'cursor':'crosshair'}}>
       <Box w={1/3} px={2}>
-    		<Text p={1} onClick={()=>{window.open('http://joerowley.net','_blank')}}>
+        <Text p={1} onClick={()=>{window.open('https://joerowley.net','_blank')}}>
           <FormattedMessage {...messages.madeby} />
     		</Text>
     	</Box>
