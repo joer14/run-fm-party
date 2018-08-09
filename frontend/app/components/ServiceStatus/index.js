@@ -80,7 +80,6 @@ class ServiceStatus extends React.PureComponent { // eslint-disable-line react/p
   }
 
   render() {
-    console.log('hiii', this.props, this.state)
     let status = {
       text: 'Not Connected',
       color: 'red',

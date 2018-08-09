@@ -38,7 +38,6 @@ export function* logout() {
   // we clear the stored user information in the store,
   // so the only other thing we could do is clear cookies using js
   // or maybe do a request to backend to clear the cookie/log the session out.
-  console.log('time to logout!')
   const requestURL = '/api/v1/logout'
   const logoutStatus = yield call(request, requestURL);
 
@@ -58,7 +57,6 @@ export function* addService(action) {
       yield put(lastfmSuccess())
 
     }
-    console.log('setupStatus', setupStatus)
   }
 }
 // Individual exports for testing

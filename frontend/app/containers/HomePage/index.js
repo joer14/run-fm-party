@@ -66,7 +66,6 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
     // window.location.href = '/api/v1/strava/gen_url'
   }
   loadActivities = () => {
-    // console.log('loading activities')
     let stravaUrl = request('/api/v1/load_activities/')
       .then((x)=>{
 
@@ -87,8 +86,6 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
     let view = loggedOutView;
 
     if(this.props.user != null){
-
-
       view = (
         <div>
           User Logged In: {this.props.user.lastfm}
@@ -106,7 +103,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
         </div>
       )
     }
-    // console.log('props', this.props)
+
     return (
         <div style={sx.root}>
           <Flex flexWrap='wrap'>
