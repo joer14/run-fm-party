@@ -90,14 +90,16 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
         <div>
           User Logged In: {this.props.user.lastfm}
           <Avatar src={this.props.user.strava.profile_medium}/>
-
           <Button
             onClick={this.props.logout}
             children='Logout'
           />
-
           <Box p={3}>
-            <ServiceStatus name='Spotify' data={this.props.user.spotify} />
+            {/*
+              Temporarily disable spotify for the time being. I don't need this, and I'm building this for me. ;)
+
+              <ServiceStatus name='Spotify' data={this.props.user.spotify} />
+            */}
             <ServiceStatus name='Last.fm' data={this.props.user.lastfm} />
           </Box>
         </div>
