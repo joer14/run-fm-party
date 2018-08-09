@@ -40,6 +40,7 @@ import {
 import StravaLogin from 'components/StravaLogin';
 import SpotifyLogin from 'components/SpotifyLogin';
 import ServiceStatus from 'components/ServiceStatus';
+import ActivityCounts from 'components/ActivityCounts';
 
 
 
@@ -113,6 +114,8 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
               <ServiceStatus name='Spotify' data={this.props.user.spotify} />
             */}
             <ServiceStatus name='Last.fm' data={this.props.user.lastfm} />
+            <ActivityCounts/>
+
           </Box>
         </Box>
       )
