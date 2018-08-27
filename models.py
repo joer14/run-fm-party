@@ -29,3 +29,17 @@ class User(Model):
     spotify = JSONAttribute(null=True,default=None)
     lastfm = JSONAttribute(null=True,default=None)
     tokens = JSONAttribute(null=True,default=None)
+
+# class Activity(Model):
+#     """
+#     Strava Activities
+#     """
+#
+#     class Meta:
+#         table_name = "activity"
+#     activity_id = NumberAttribute(hash_key=True)
+#     athlete_id = NumberAttribute(range_key=True)
+#     activity = JSONAttribute()
+#     activity_start_date_local = UnicodeAttribute()
+#     last_fm_last_sync = UnicodeAttribute(null=True,default=None)
+#     spotify_last_sync = UnicodeAttribute(null=True,default=None)
