@@ -18,6 +18,44 @@ app = Flask(__name__,  static_url_path='', static_folder='build')  # serve front
 secret_key = str(os.getenv('STRAVA_CLIENT_SECRET'))+str(os.getenv('SPOTIFY_CLIENT_SECRET'))+str(os.getenv('LASTFM_SHARED_SECRET'))
 app.secret_key = secret_key
 
+def get_user_obj(athlete_id):
+    ''' Given an athelete_id, get a user id from dynamodb '''
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+    table = dynamodb.Table('users')
+    response = table.get_item(Key={'athlete_id':int(athlete_id)})
+    if 'Item' not in response:
+        # 'Error - could not find that user in our db'
+        return None
+    return response['Item']
+
+def make_strava_request(athlete_id, endpoint, params):
+    user_obj = get_user_obj(athlete_id)
+    access_token = user_obj['strava_access_token']
+    headers = {'Authorization':'Bearer '+ access_token}
+    r = requests.get(endpoint, headers=headers, params=params)
+    return r
+
+def convert_dict_for_dynamodb(in_dict):
+    ''' takes a dict with some values that are floats, ints, etc.
+        returns dicts with valid types for dynamodb
+
+        checkout this issue for more robust fix: https://github.com/boto/boto3/issues/665
+    '''
+    for k in in_dict:
+        if type(in_dict[k]) in [float, int]:
+            in_dict[k] = Decimal(str(in_dict[k]))
+        if type(in_dict[k]) == list:
+            in_dict[k] = str(in_dict[k])
+    return in_dict
+
+def convert_dynamodb_to_dict(in_dict):
+    for k in in_dict:
+        if type(in_dict[k]) == Decimal:
+            in_dict[k] = float(in_dict[k])
+        if type(in_dict[k]) == dict:
+            in_dict[k] = convert_dynamodb_to_dict(in_dict[k])
+    return in_dict
+
 # frontend building/hackiness stuff
 # this is super janky - but we can just serve the html and all static assets through lambda.
 # this is a bad practice. I want to eventually setup s3 to host these files, ideally with
@@ -70,39 +108,6 @@ def lastfm_setup():
         user.save()
     return jsonify(user.as_json())
 
-# this actually isn't necessary currently since you don't need permission to grab
-# recent tracks from a user
-# @app.route('/api/v1/lastfm/exchange/')
-# def lastfm_exchange():
-#     token = request.args.get('token')
-#     if token == None:
-#         # they probably denied us.... do something else.
-#         return
-#     print '-'*70
-#     print 'token'
-#     print token
-#     print '-'*70
-#     # http://localhost:3000/api/v1/lastfm/exchange/?token=Q6i6DHf8RJt1RSac8Ugi1d6WxVUklMip
-#
-#     get_session = 'http://www.last.fm/api/auth/getSession'
-#
-#     data = {
-#         'token': token,
-#         'api_key': os.getenv('LASTFM_API_KEY'),
-#     }
-#
-#     return get_session
-#     response = requests.get(exchange_url)
-#     # content = json.loads(response.content)
-#     # todo
-#     user = User.get(session['athlete_id'])
-#     # user.tokens['lastfm'] = content
-#     #since there is an expires in field, we should probably include the time we got the cert in the contents.
-#     #or maybe expires_in + current time, so we know when it will expire according to our current clock
-#     # user.spotify = {'profile':{'name':'joe'}}
-#     user.save()
-#     return redirect('/success', code=302)
-#
 # everytime we make a request to spotify, we need to make sure we don't need to refresh the token for the user first.
 
 @app.route('/api/v1/login')
@@ -156,52 +161,20 @@ def strava_exchange():
 
     return redirect('/success', code=302)
 
-def get_user_obj(athlete_id):
-    ''' Given an athelete_id, get a user id from dynamodb '''
-    dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
-    table = dynamodb.Table('users')
-    response = table.get_item(Key={'athlete_id':int(athlete_id)})
-    if 'Item' not in response:
-        # 'Error - could not find that user in our db'
-        return None
-    return response['Item']
+@app.route('/api/v1/status')
+def status():
+    # return number of activities we've pulled from strava
+    # number of activies we've attempted to sync
+    # number of activies with music
+    # time of last sync
 
-def make_strava_request(athlete_id, endpoint, params):
-    user_obj = get_user_obj(athlete_id)
-    access_token = user_obj['strava_access_token']
-    headers = {'Authorization':'Bearer '+ access_token}
-    r = requests.get(endpoint, headers=headers, params=params)
-    return r
+    return jsonify({
+        'strava_count':0,
+        'activies_attemped_sync_music_count': 0,
+        'activies_with_music_count':0,
+        'time_of_last_strava_pull':0,
+    })
 
-def convert_dict_for_dynamodb(in_dict):
-    ''' takes a dict with some values that are floats, ints, etc.
-        returns dicts with valid types for dynamodb
-
-        checkout this issue for more robust fix: https://github.com/boto/boto3/issues/665
-    '''
-    for k in in_dict:
-        # print k
-        if type(in_dict[k]) in [float, int]:
-            # print 'before', type(in_dict[k])
-            in_dict[k] = Decimal(str(in_dict[k]))
-            # print 'after', type(in_dict[k])
-        if type(in_dict[k]) == list:
-            in_dict[k] = str(in_dict[k])
-
-    # print 'final dict'
-    #
-    # print '-'*70
-    # for k in in_dict:
-    #     print k, ',', type(in_dict[k])
-    return in_dict
-
-def convert_dynamodb_to_dict(in_dict):
-    for k in in_dict:
-        if type(in_dict[k]) == Decimal:
-            in_dict[k] = float(in_dict[k])
-        if type(in_dict[k]) == dict:
-            in_dict[k] = convert_dynamodb_to_dict(in_dict[k])
-    return in_dict
 
 @app.route('/api/v1/load_activities/')
 def load_all_user_activies():
@@ -238,6 +211,7 @@ def load_all_user_activies():
             act = convert_dict_for_dynamodb(act)
             batch.put_item(Item=act)
     return r.text
+
 
 @app.route('/api/v1/dump_activities/')
 def dump_all_user_activies():
