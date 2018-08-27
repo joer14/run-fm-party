@@ -161,13 +161,29 @@ def strava_exchange():
 
     return redirect('/success', code=302)
 
-@app.route('/api/v1/status')
-def status():
+@app.route('/api/v1/fetch-status')
+def fetch_status():
     # return number of activities we've pulled from strava
     # number of activies we've attempted to sync
     # number of activies with music
     # time of last sync
+    import datetime
+    now = datetime.datetime.now()
+    if now.second > 30:
+        print 'fetching'
+        return jsonify({
+            'fetching': True,
+        })
+    else :
+        print 'not fetching'
+        return jsonify({
+            'fetching': False,
+        })
 
+@app.route('/api/v1/fetch')
+def fetch_activities():
+    # when we are in backfill mode, we should fetch a list of all activities
+    # add them to the queue or something like that...
     return jsonify({
         'strava_count':0,
         'activies_attemped_sync_music_count': 0,
@@ -176,7 +192,7 @@ def status():
     })
 
 
-@app.route('/api/v1/load_activities/')
+@app.route('/api/v1/fetch_old/')
 def load_all_user_activies():
     '''
         create another version that just updates stuff
