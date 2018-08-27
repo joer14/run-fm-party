@@ -30,19 +30,23 @@ import {
 
 import request from 'utils/request';
 
-import { login, logout, addService } from '../App/actions';
 import {
-  selectUser,
-  selectLoginUrl,
+  addService,
+  fetchActivities,
+  login,
+  logout,
+ } from '../App/actions';
+
+import {
   selectLoginStatus,
+  selectLoginUrl,
+  selectUser,
 } from '../App/selectors';
 
-import StravaLogin from 'components/StravaLogin';
-import SpotifyLogin from 'components/SpotifyLogin';
+import FetchActivities from 'components/FetchActivities';
 import ServiceStatus from 'components/ServiceStatus';
-import ActivityCounts from 'components/ActivityCounts';
-
-
+import SpotifyLogin from 'components/SpotifyLogin';
+import StravaLogin from 'components/StravaLogin';
 
 export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -114,7 +118,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
               <ServiceStatus name='Spotify' data={this.props.user.spotify} />
             */}
             <ServiceStatus name='Last.fm' data={this.props.user.lastfm} />
-            <ActivityCounts/>
+            <FetchActivities fetch={this.props.fetchActivities} />
 
           </Box>
         </Box>
@@ -188,6 +192,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchActivities: () => dispatch(fetchActivities()),
     addService: (service) => dispatch(addService(service)),
     logout: () => dispatch(logout()),
     dispatch,

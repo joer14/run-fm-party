@@ -1,6 +1,6 @@
 /**
 *
-* ActivityCounts
+* FetchActivities
 *
 */
 
@@ -25,7 +25,7 @@ import {
 } from 'rebass'
 
 
-class ActivityCounts extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class FetchActivities extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.state = {
@@ -40,16 +40,17 @@ class ActivityCounts extends React.PureComponent { // eslint-disable-line react/
           <Text pr={2}>0</Text>
         </Flex>
         <Button
-          lineHeight={1}
           bg='red'
-          children={'Fetch and Update Activities Descriptions'}/>
+          children={messages.button}
+          lineHeight={1}
+          onClick={this.props.fetch}/>
       </Box>
     );
   }
 }
 
-ActivityCounts.propTypes = {
+FetchActivities.propTypes = {
 
 };
 
-export default ActivityCounts;
+export default FetchActivities;

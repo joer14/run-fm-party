@@ -16,13 +16,15 @@
  */
 
 import {
-  LOGIN,
-  LOGIN_LOADED,
-  LOGOUT,
-  GOT_LOGIN_URL,
   ADD_SERVICE,
+  FETCH_ACTIVITIES_START,
+  FETCH_ACTIVITIES_STATUS,
+  GOT_LOGIN_URL,
   LAST_FM_SUCCESS_SETUP,
-  LAST_FM_VALIDATING
+  LAST_FM_VALIDATING,
+  LOGIN_LOADED,
+  LOGIN,
+  LOGOUT
 } from './constants';
 
 export function login() {
@@ -70,6 +72,20 @@ export function lastfmSuccess(){
 export function lastfmValdating(){
   return {
     type: LAST_FM_VALIDATING,
+  }
+}
+
+
+export function fetchActivities(){
+  return {
+    type: FETCH_ACTIVITIES_START,
+  }
+}
+
+export function fetchActivitiesStatus(){
+  console.log('fetchActivitiesStatus action dispacthed')
+  return {
+    type: FETCH_ACTIVITIES_STATUS,
   }
 }
 

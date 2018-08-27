@@ -13,6 +13,8 @@
 import { fromJS } from 'immutable';
 
 import {
+  FETCH_ACTIVITIES_COMPLETE,
+  FETCH_ACTIVITIES_START,
   GOT_LOGIN_URL,
   LAST_FM_SUCCESS_SETUP,
   LAST_FM_VALIDATING,
@@ -25,12 +27,6 @@ import {
 const initialState = fromJS({
   loggingIn: false,
   user: null,
-  // loading: false,
-  // error: false,
-  // currentUser: false,
-  // userData: {
-  //   repositories: false,
-  // },
 });
 
 function appReducer(state = initialState, action) {
@@ -53,6 +49,14 @@ function appReducer(state = initialState, action) {
       return state
         .set('loggingIn', false)
         .set('loginUrl', action.url);
+
+    case FETCH_ACTIVITIES_COMPLETE:
+      return state
+        .set('fetching', false);
+
+    case FETCH_ACTIVITIES_START:
+      return state
+        .set('fetching', true);
 
     case LAST_FM_SUCCESS_SETUP:
       return state
